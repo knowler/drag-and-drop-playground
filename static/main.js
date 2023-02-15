@@ -1,7 +1,8 @@
 const DRAG_AND_DROP_EVENT_TYPES = ["drag", "dragstart", "dragend", "dragenter", "dragleave", "dragover", "drop"]
 
-class SortableListElement extends HTMLUListElement {
-  get listItemElements() { return this.querySelectorAll(":scope > li"); }
+class SortableListElement extends HTMLElement {
+  get listElement() { return this.querySelector(":scope > :is(ol, ul)"); }
+  get listItemElements() { return this.listElement.querySelectorAll(":scope > li"); }
 
   connectedCallback() {
     for (const listItemElement of this.listItemElements) {
@@ -58,7 +59,5 @@ class SortableListElement extends HTMLUListElement {
 
 if (!window.customElements.get("sortable-list")) {
   window.SortableListElement = SortableListElement;
-  window.customElements.define("sortable-list", SortableListElement, {
-    extends: "ul",
-  });
+  window.customElements.define("sortable-list", SortableListElement);
 }
